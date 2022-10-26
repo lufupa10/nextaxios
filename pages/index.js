@@ -1,27 +1,19 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
+import { useAxios } from '../service/useAxios'
 import styles from '../styles/Home.module.css'
 
 
 export default function Home() {
 
-  const [data, setData] = useState([]);
-
-  useEffect(()=> {
-    const myApi = async()=> {
-      const response = await fetch('https://5e4f6bd143b2b200142a36de.mockapi.io/testeme');
-      const mayReponse = await response.json();
-      setData(mayReponse);
-      console.log(mayReponse)
-    }
-
-    myApi();
-  }, [])
+  const { data } = useAxios('https://5e4f6bd143b2b200142a36de.mockapi.io/testeme', 'GET');
 
   return (
     <>
-      {data.map((e)=> <div key={e.id}>{e.name}</div>)}
+    <ul>
+        {data?.map((e)=> <li key={e.id}>{e.name}</li>)}
+    </ul>
    </>
   )
 }
